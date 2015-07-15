@@ -106,5 +106,37 @@ namespace MongoConsole2Tests
                 result.ModifiedCount.Should().Be(20);
             }
         }
+
+        [Fact(Skip = "Will actually delete data")]
+        public async void Query4()
+        {
+            var collection = _database.GetCollection<BsonDocument>("restaurants");
+            var filter = Builders<BsonDocument>.Filter.Eq("borough", "Manhattan");
+            var result = await collection.DeleteManyAsync(filter);
+
+            result.DeletedCount.Should().Be(10259);
+
+        }
+
+        [Fact(Skip = "Will delete all documents :O")]
+        public async void Query5()
+        {
+            var collection = _database.GetCollection<BsonDocument>("restaurants");
+            var filter = new BsonDocument();
+            var result = await collection.DeleteManyAsync(filter);
+
+            result.DeletedCount.Should().Be(25359);
+        }
+
+        [Fact(Skip="Will delete the database"]
+        public async void Query6()
+        {
+            await _database.DropCollectionAsync("restaurants");
+            using (var cursor = await _database.ListCollectionsAsync())
+            {
+                var collections = await cursor.ToListAsync();
+                collections.Should().NotContain(document => document["name"] == "restaurants");
+            }
+        }
     }
 }
