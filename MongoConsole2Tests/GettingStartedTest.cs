@@ -8,6 +8,7 @@ using FluentAssertions;
 
 namespace MongoConsole2Tests
 {
+    //https://docs.mongodb.org/getting-started/csharp/query/
     public class GettingStartedTest
     {
 
@@ -22,7 +23,7 @@ namespace MongoConsole2Tests
         }
 
         [Fact]
-        public async void Query1_Test(){
+        public async void Query1(){
             var repo = new Repo();
             var result = await repo.Query1();
 
@@ -30,13 +31,32 @@ namespace MongoConsole2Tests
         }
 
         [Fact]
-        public async void Query2_Test()
+        public async void Query2()
         {
-                var repo = new Repo();
-                var result = await repo.Query2();
+            var repo = new Repo();
+            var result = await repo.Query2();
 
-                result.Should().NotBeEmpty();
+            result.Should().NotBeEmpty();
+        }
 
+        [Fact]
+        public async void Query3()
+        {
+            var collection = _database.GetCollection<BsonDocument>("restaurants");
+            var filter = Builders<BsonDocument>.Filter.Eq("address.zipcode", "10075");
+            var result = await collection.Find(filter).ToListAsync();
+            result.Should().NotBeEmpty();
+            result.Count.Should().Be(99);
+        }
+
+        [Fact]
+        public async void Query4()
+        {
+            var collection = _database.GetCollection<BsonDocument>("restaurants");
+            var filter = Builders<BsonDocument>.Filter.Eq("grades.grade", "B");
+            var result = await collection.Find(filter).ToListAsync();
+
+            result.Count.Should().Be(8280);
         }
     }
 }
