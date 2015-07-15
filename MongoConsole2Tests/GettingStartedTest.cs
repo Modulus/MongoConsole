@@ -5,6 +5,7 @@ using Xunit;
 using MongoDB.Driver;
 using MongoDB.Bson;
 using FluentAssertions;
+using FluentAssertions.Collections;
 
 namespace MongoConsole2Tests
 {
@@ -57,6 +58,52 @@ namespace MongoConsole2Tests
             var result = await collection.Find(filter).ToListAsync();
 
             result.Count.Should().Be(8280);
+        }
+
+        [Fact]
+        public async void Query5()
+        {
+            var collection = _database.GetCollection<BsonDocument>("restaurants");
+            var filter = Builders<BsonDocument>.Filter.Gt("grades.score", 30);
+            var result = await collection.Find(filter).ToListAsync();
+
+            result.Count.Should().Be(1959);
+
+            filter = Builders<BsonDocument>.Filter.Lt("grades.score", 10);
+            result = await collection.Find(filter).ToListAsync();
+            result.Count.Should().Be(19065);
+
+        }
+
+        [Fact]
+        public async void Query6()
+        {
+            var collection = _database.GetCollection<BsonDocument>("restaurants");
+            var builder = Builders<BsonDocument>.Filter;
+            var filter = builder.Eq("cuisine", "Italian") & builder.Eq("address.zipcode", "10075");
+            var result = await collection.Find(filter).ToListAsync();
+
+            result.Count.Should().Be(15);
+
+
+            filter = builder.Eq("cuisine", "Italian") | builder.Eq("address.zipcode", "10075");
+            result = await collection.Find(filter).ToListAsync();
+
+            result.Count.Should().Be(1153);
+        }
+
+        [Fact]
+        public async void Query7()
+        {
+            var collection = _database.GetCollection<BsonDocument>("restaurants");
+            var filter = new BsonDocument();
+            var sort = Builders<BsonDocument>.Sort.Ascending("borough").Ascending("address.zipcode");
+            var result = await collection.Find(filter).Sort(sort).ToListAsync();
+
+            Func<BsonDocument, BsonDocument> keyFunc = document => new BsonDocument { { "borough", document["borough"] }, { "address.zipcode", document.GetValue("address.zipcode", "") } };
+            //IsInAscendingOrder(result, keyFunc).Should().BeTrue();
+
+            //result.Should().BeInAscendingOrder();
         }
     }
 }
