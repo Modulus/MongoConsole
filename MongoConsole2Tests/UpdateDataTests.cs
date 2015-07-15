@@ -128,7 +128,7 @@ namespace MongoConsole2Tests
             result.DeletedCount.Should().Be(25359);
         }
 
-        [Fact(Skip="Will delete the database"]
+        [Fact(Skip="Will delete the database")]
         public async void Query6()
         {
             await _database.DropCollectionAsync("restaurants");

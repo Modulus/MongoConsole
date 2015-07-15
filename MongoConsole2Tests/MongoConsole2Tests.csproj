@@ -79,6 +79,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="AggregationTests.cs" />
     <Compile Include="GettingStartedTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UpdateDataTests.cs" />
