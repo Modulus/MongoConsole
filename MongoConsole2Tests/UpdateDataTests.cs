@@ -66,6 +66,7 @@ namespace MongoConsole2Tests
                 result.ModifiedCount.Should().Be(1);
             }
 
+
             update = Builders<BsonDocument>.Update.Set("address.street", "East 31 Street");
             result = await collection.UpdateOneAsync(filter, update);
 
@@ -73,6 +74,36 @@ namespace MongoConsole2Tests
             if (result.IsModifiedCountAvailable)
             {
                 result.ModifiedCount.Should().Be(1);
+            }
+        }
+
+        [Fact]
+        public async void Query3()
+        {
+            var collection = _database.GetCollection<BsonDocument>("restaurants");
+            var builder = Builders<BsonDocument>.Filter;
+            var filter = builder.Eq("address.zipcode", "10016") & builder.Eq("cuisine", "Other");
+            var update = Builders<BsonDocument>.Update
+                .Set("cuisine", "Category To Be Determined")
+                .CurrentDate("lastModified");
+            var result = await collection.UpdateManyAsync(filter, update);
+            result.MatchedCount.Should().Be(20);
+            if (result.IsModifiedCountAvailable)
+            {
+                result.ModifiedCount.Should().Be(20);
+            }
+
+
+            filter = builder.Eq("address.zipcode", "10016") & builder.Eq("cuisine", "Category To Be Determined");
+            update = Builders<BsonDocument>.Update
+                .Set("cuisine", "Other")
+                .CurrentDate("lastModified");
+            result = await collection.UpdateManyAsync(filter, update);
+
+            result.MatchedCount.Should().Be(20);
+            if (result.IsModifiedCountAvailable)
+            {
+                result.ModifiedCount.Should().Be(20);
             }
         }
     }
