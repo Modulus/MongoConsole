@@ -30,5 +30,8 @@ namespace MongoConsole2Tests
 
         [BsonElement("grades")]
         public List<Grade> Grades { get; set; }
+
+        [BsonElement("lastModified")]
+        public DateTime LastModified { get; set; }
     }
 }
