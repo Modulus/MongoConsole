@@ -12,8 +12,9 @@ namespace MongoConsole2Tests
         [BsonElement("building")]
         public string Building { get; set; }
 
+
         [BsonElement("coord")]
-        public List<Coordinates> Coord { get; set; }
+        public List<double> Coord { get; set; }
 
         [BsonElement("street")]
         public string Street { get; set; }
@@ -21,10 +22,8 @@ namespace MongoConsole2Tests
         [BsonElement("zipcode")]
         public string ZipCode { get; set; }
 
-        [BsonElement("cuisine")]
-        public string Cuisine {get; set;}
+  
 
-        [BsonElement("grades")]
-        public List<Grade> Grades { get; set; }
+
     }
 }

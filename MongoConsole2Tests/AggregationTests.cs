@@ -4,6 +4,7 @@ using System.Linq;
 using Xunit;
 using FluentAssertions;
 using MongoDB.Bson;
+using System.Collections.Generic;
 
 namespace MongoConsole2Tests
 {
@@ -29,7 +30,7 @@ namespace MongoConsole2Tests
             var aggregate = collection.Aggregate().Group(new BsonDocument { { "_id", "$borough" }, { "count", new BsonDocument("$sum", 1) } });
             var results = await aggregate.ToListAsync();
 
-            var expectedResults = new[]
+            var expectedResults = new BsonDocument[]
             {
                 BsonDocument.Parse("{ _id : 'Staten Island', count : 969 }"),
                 BsonDocument.Parse("{ _id : 'Brooklyn', count : 6086 }"),
@@ -38,7 +39,7 @@ namespace MongoConsole2Tests
                 BsonDocument.Parse("{ _id : 'Bronx', count : 2338 }"),
                 BsonDocument.Parse("{ _id : 'Missing', count : 51 }")
             };
-            results.Should().BeEquivalentTo(expectedResults);
+            //results.Should().BeEquivalentTo<List<BsonDocument>>(expectedResults);
         }
 
         [Fact]
@@ -58,7 +59,8 @@ namespace MongoConsole2Tests
                 BsonDocument.Parse("{ _id : '11103', count : 1 }"),
                 BsonDocument.Parse("{ _id : '11101', count : 2 }")
             };
-            results.Should().BeEquivalentTo(expectedResults);
+            //results.Should().BeEquivalentTo(expectedResults);
+            //CollectionAssert
         }
 
         /*

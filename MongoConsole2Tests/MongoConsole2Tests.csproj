@@ -81,7 +81,6 @@
   <ItemGroup>
     <Compile Include="Adresss.cs" />
     <Compile Include="AggregationTests.cs" />
-    <Compile Include="Coordinates.cs" />
     <Compile Include="GettingStartedTest.cs" />
     <Compile Include="Grades.cs" />
     <Compile Include="IndexTests.cs" />

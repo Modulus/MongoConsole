@@ -3,6 +3,7 @@ using MongoDB.Driver;
 using System;
 using System.Linq;
 using Xunit;
+using FluentAssertions;
 
 namespace MongoConsole2Tests
 {
@@ -26,9 +27,9 @@ namespace MongoConsole2Tests
             var collection = _database.GetCollection<Restaurant>("restaurants");
             var filter = new BsonDocument();
 
-            var result = await collection.FindAsync(filter);
-
-            int x = 0;
+            var result = await collection.Find(filter).ToListAsync();
+            result.Should().NotBeEmpty();
+           
         }
     }
 }

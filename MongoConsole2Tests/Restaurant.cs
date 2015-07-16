@@ -9,7 +9,6 @@ namespace MongoConsole2Tests
 {
     public class Restaurant
     {
-        private Address adreess;
 
         [BsonId, BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
         public string Id { get; set; }
@@ -22,5 +21,14 @@ namespace MongoConsole2Tests
 
         [BsonElement("restaurant_id")]
         public string RestaurantId { get; set; }
+
+        [BsonElement("borough")]
+        public string Borough { get; set; }
+
+        [BsonElement("cuisine")]
+        public string Cuisine { get; set; }
+
+        [BsonElement("grades")]
+        public List<Grade> Grades { get; set; }
     }
 }

@@ -12,7 +12,7 @@ namespace MongoConsole2Tests
         public string Letter { get; set; }
 
         [BsonElement("score")]
-        public string Score { get; set; }
+        public int Score { get; set; }
 
         [BsonElement("date")]
         [BsonDateTimeOptions(DateOnly = false)]
